@@ -3,7 +3,6 @@ import type { AppState, Mood } from './types';
 import { Header } from './components/Header';
 import { BackgroundDecor } from './components/BackgroundDecor';
 import { Buddy } from './components/Buddy';
-import { Breadcrumb } from './components/Breadcrumb';
 import { GradeScreen } from './components/screens/GradeScreen';
 import { SubjectScreen } from './components/screens/SubjectScreen';
 import { UnitScreen } from './components/screens/UnitScreen';
@@ -114,16 +113,16 @@ export default function App() {
       overflowX: 'hidden',
     }}>
       <BackgroundDecor />
-      <Header />
+      <Header breadcrumbItems={breadcrumbItems} showBreadcrumb={showBreadcrumb} onBack={goBack} />
       <main style={{
         position: 'relative',
         zIndex: 10,
         maxWidth: 640,
         margin: '0 auto',
-        padding: '26px clamp(18px, 4vw, 40px) 160px',
+        padding: '26px clamp(18px, 4vw, 40px) 40px',
       }}>
-        {showBreadcrumb && (
-          <Breadcrumb items={breadcrumbItems} onBack={goBack} />
+        {state.screen === 'drill' && (
+          <Buddy mood={state.mood} message={state.buddyMsg} />
         )}
 
         {state.screen === 'grade' && (
@@ -151,7 +150,6 @@ export default function App() {
           />
         )}
       </main>
-      <Buddy mood={state.mood} message={state.buddyMsg} />
     </div>
   );
 }

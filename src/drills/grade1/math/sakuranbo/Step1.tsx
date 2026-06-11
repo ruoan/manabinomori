@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import type { Mood } from '../../../types';
-import { Numpad } from '../../Numpad';
-import { correctMsg, wrongMsg } from '../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from './DrillShared';
+import type { Mood } from '../../../../types';
+import { Numpad } from '../../../../components/Numpad';
+import { correctMsg, wrongMsg } from '../../../../utils/messages';
+import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
 
 interface Problem {
   shown: number;
@@ -15,12 +15,12 @@ function genProblem(): Problem {
   return { shown, answer: 10 - shown, shownLeft: Math.random() < 0.5 };
 }
 
-interface Step1ScreenProps {
+interface Step1Props {
   onBuddy: (mood: Mood, msg: string) => void;
   onRecord: () => void;
 }
 
-export function Step1Screen({ onBuddy, onRecord }: Step1ScreenProps) {
+export function Step1({ onBuddy, onRecord }: Step1Props) {
   const [problem, setProblem] = useState<Problem>(genProblem);
   const [input, setInput] = useState('');
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');

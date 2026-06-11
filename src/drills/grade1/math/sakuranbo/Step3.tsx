@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import type { Mood } from '../../../types';
-import { Numpad } from '../../Numpad';
-import { correctMsg, wrongMsg } from '../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from './DrillShared';
+import type { Mood } from '../../../../types';
+import { Numpad } from '../../../../components/Numpad';
+import { correctMsg, wrongMsg } from '../../../../utils/messages';
+import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
 
 interface Problem {
   a: number;
@@ -21,7 +21,7 @@ function genProblem(): Problem {
   return { a, b, split1, split2, answer: a + b };
 }
 
-interface Step3ScreenProps {
+interface Step3Props {
   onBuddy: (mood: Mood, msg: string) => void;
   onRecord: () => void;
   showHint?: boolean;
@@ -30,7 +30,7 @@ interface Step3ScreenProps {
   partialFill?: boolean;
 }
 
-export function Step3Screen({ onBuddy, onRecord, showHint = false, partialFill = false }: Step3ScreenProps) {
+export function Step3({ onBuddy, onRecord, showHint = false, partialFill = false }: Step3Props) {
   const totalBlanks = partialFill ? 2 : 3;
 
   const [problem, setProblem] = useState<Problem>(genProblem);

@@ -8,17 +8,15 @@ interface BuddyProps {
 export function Buddy({ mood, message }: BuddyProps) {
   return (
     <div style={{
-      position: 'fixed',
-      left: 'clamp(8px, 2vw, 20px)',
-      bottom: 12,
-      zIndex: 40,
       display: 'flex',
       flexDirection: 'row',
-      alignItems: 'flex-end',
-      gap: 8,
+      alignItems: 'center',
+      gap: 10,
+      marginBottom: 20,
+      paddingTop: 10,
       pointerEvents: 'none',
     }}>
-      <div style={{ transform: 'scale(.74)', transformOrigin: 'bottom left', flexShrink: 0 }}>
+      <div style={{ zoom: 0.62, flexShrink: 0 }}>
         <PikoBody mood={mood} />
       </div>
       <SpeechBubble message={message} />
@@ -175,7 +173,6 @@ function SpeechBubble({ message }: { message: string }) {
   return (
     <div style={{
       position: 'relative',
-      marginBottom: 34,
       maxWidth: 210,
       background: '#fff',
       border: '3px solid #FFE3CF',

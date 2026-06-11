@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import type { Mood } from '../../../types';
-import { Numpad } from '../../Numpad';
-import { correctMsg, wrongMsg } from '../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from './DrillShared';
+import type { Mood } from '../../../../types';
+import { Numpad } from '../../../../components/Numpad';
+import { correctMsg, wrongMsg } from '../../../../utils/messages';
+import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
 
 interface Problem {
   a: number;
@@ -17,12 +17,12 @@ function genProblem(): Problem {
   return { a, b, answer: a + b };
 }
 
-interface Step5ScreenProps {
+interface Step5Props {
   onBuddy: (mood: Mood, msg: string) => void;
   onRecord: () => void;
 }
 
-export function Step5Screen({ onBuddy, onRecord }: Step5ScreenProps) {
+export function Step5({ onBuddy, onRecord }: Step5Props) {
   const [problem, setProblem] = useState<Problem>(genProblem);
   const [input, setInput] = useState('');
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');

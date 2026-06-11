@@ -1,4 +1,15 @@
-export function Header() {
+export interface BreadcrumbItem {
+  label: string;
+  onClick?: () => void;
+}
+
+interface HeaderProps {
+  breadcrumbItems?: BreadcrumbItem[];
+  onBack?: () => void;
+  showBreadcrumb?: boolean;
+}
+
+export function Header({ breadcrumbItems = [], onBack, showBreadcrumb }: HeaderProps) {
   return (
     <header style={{
       position: 'sticky',
@@ -13,7 +24,52 @@ export function Header() {
       backdropFilter: 'blur(10px)',
       borderBottom: '2px solid #F4E3CC',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      {showBreadcrumb && onBack ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
+          <button
+            onClick={onBack}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              cursor: 'pointer',
+              background: '#fff',
+              border: '2px solid #FFE0C4',
+              color: '#B07A4E',
+              fontFamily: 'inherit',
+              fontWeight: 800,
+              fontSize: 14,
+              padding: '6px 14px 6px 10px',
+              borderRadius: 999,
+              boxShadow: '0 3px 0 #F2DCC6',
+              flexShrink: 0,
+            }}
+          >
+            ‹ もどる
+          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 800, fontSize: 13, flexWrap: 'wrap' }}>
+            {breadcrumbItems.map((item, i) => (
+              <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {i > 0 && <span style={{ color: '#C4AE96' }}>›</span>}
+                <span
+                  onClick={item.onClick}
+                  style={{
+                    cursor: item.onClick ? 'pointer' : 'default',
+                    color: i === breadcrumbItems.length - 1 ? '#4A3B2A' : '#9C8A74',
+                  }}
+                >
+                  {item.label}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div style={{ fontSize: 14, fontWeight: 800, color: '#B7A488', whiteSpace: 'nowrap' }}>
+          たのしく まなぼう！
+        </div>
+      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
         <PikoIcon />
         <div style={{
           fontFamily: "'Mochiy Pop One', sans-serif",
@@ -23,9 +79,6 @@ export function Header() {
         }}>
           まなびの<span style={{ color: '#3FA35A' }}>森</span>
         </div>
-      </div>
-      <div style={{ fontSize: 14, fontWeight: 800, color: '#B7A488', whiteSpace: 'nowrap' }}>
-        たのしく まなぼう！
       </div>
     </header>
   );
