@@ -3,9 +3,10 @@ import type { ReactNode } from 'react';
 interface DrillCardProps {
   title: string;
   children: ReactNode;
+  maxWidth?: number;
 }
 
-export function DrillCard({ title, children }: DrillCardProps) {
+export function DrillCard({ title, children, maxWidth = 560 }: DrillCardProps) {
   return (
     <div style={{
       background: '#fff',
@@ -13,7 +14,7 @@ export function DrillCard({ title, children }: DrillCardProps) {
       border: '3px solid #F4E3CC',
       boxShadow: '0 10px 0 #F4E3CC',
       padding: 'clamp(20px, 4vw, 36px)',
-      maxWidth: 560,
+      maxWidth,
       margin: '0 auto',
     }}>
       <div style={{

@@ -44,6 +44,34 @@ button {
   80%       { transform: translateX(-4px); }
 }
 
+.drill-two-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (min-width: 760px) {
+  .drill-two-col {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .drill-two-col .drill-problem {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drill-two-col .numpad-shell {
+    flex: 0 0 auto;
+  }
+}
+
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }

@@ -57,24 +57,35 @@ export function Step1({ onBuddy, onRecord }: Step1Props) {
   const { shown, answer, shownLeft } = problem;
 
   return (
-    <DrillCard title="10の ごうせい">
-      <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <ComposeProblem
-          shown={shown}
-          shownLeft={shownLeft}
-          userInput={input}
-          shake={shake}
-          done={phase === 'feedback'}
-          answer={answer}
-        />
-      </div>
-
+    <DrillCard title="10の ごうせい" maxWidth={800}>
       {phase === 'input' ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="drill-two-col">
+          <div className="drill-problem" style={{ textAlign: 'center' }}>
+            <ComposeProblem
+              shown={shown}
+              shownLeft={shownLeft}
+              userInput={input}
+              shake={shake}
+              done={false}
+              answer={answer}
+            />
+          </div>
           <Numpad value={input} onChange={setInput} onSubmit={submit} maxLength={1} />
         </div>
       ) : (
-        <FeedbackOverlay correct={correct} onNext={next} />
+        <>
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <ComposeProblem
+              shown={shown}
+              shownLeft={shownLeft}
+              userInput={input}
+              shake={false}
+              done={true}
+              answer={answer}
+            />
+          </div>
+          <FeedbackOverlay correct={correct} onNext={next} />
+        </>
       )}
     </DrillCard>
   );
@@ -85,7 +96,7 @@ function ComposeProblem({ shown, shownLeft, userInput, shake, done, answer }: {
 }) {
   const desc = shownLeft
     ? `${shown} と たして 10 に なる かずは？`
-    : `たすと ${shown} で 10 に なる かずは？`;
+    : `${shown} を たすと 10 に なる かずは？`;
 
   return (
     <div>

@@ -58,43 +58,49 @@ export function Step5({ onBuddy, onRecord }: Step5Props) {
 
   const { a, b, answer } = problem;
 
-  return (
-    <DrillCard title="しあげ ドリル">
-      <div style={{ textAlign: 'center', marginBottom: 28 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#A8957D', marginBottom: 16 }}>
-          こたえだけ かいてみよう！
-        </div>
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 14,
-          background: '#F0F7FF',
-          borderRadius: 24,
-          padding: '18px 28px',
-          border: '3px solid #D0E8FF',
-        }}>
-          <BigNum val={a} color="#5B9BFF" />
-          <span style={{ fontSize: 36, fontWeight: 800, color: '#A8957D' }}>＋</span>
-          <BigNum val={b} color="#FF9F45" />
-          <span style={{ fontSize: 36, fontWeight: 800, color: '#A8957D' }}>＝</span>
-          {phase === 'feedback' ? (
-            <BigNum val={answer} color="#34C77B" />
-          ) : (
-            <AnswerBox input={input} shake={shake} />
-          )}
-        </div>
+  const problemArea = (
+    <div className="drill-problem" style={{ textAlign: 'center' }}>
+      <div style={{ fontSize: 14, fontWeight: 700, color: '#A8957D', marginBottom: 16 }}>
+        こたえだけ かいてみよう！
       </div>
+      <div style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 14,
+        background: '#F0F7FF',
+        borderRadius: 24,
+        padding: '18px 28px',
+        border: '3px solid #D0E8FF',
+      }}>
+        <BigNum val={a} color="#5B9BFF" />
+        <span style={{ fontSize: 36, fontWeight: 800, color: '#A8957D' }}>＋</span>
+        <BigNum val={b} color="#FF9F45" />
+        <span style={{ fontSize: 36, fontWeight: 800, color: '#A8957D' }}>＝</span>
+        {phase === 'feedback' ? (
+          <BigNum val={answer} color="#34C77B" />
+        ) : (
+          <AnswerBox input={input} shake={shake} />
+        )}
+      </div>
+    </div>
+  );
 
+  return (
+    <DrillCard title="しあげ ドリル" maxWidth={800}>
       {phase === 'input' ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="drill-two-col">
+          {problemArea}
           <Numpad value={input} onChange={setInput} onSubmit={submit} maxLength={2} />
         </div>
       ) : (
-        <FeedbackOverlay
-          correct={correct}
-          onNext={next}
-          correctAnswer={!correct ? String(answer) : undefined}
-        />
+        <>
+          {problemArea}
+          <FeedbackOverlay
+            correct={correct}
+            onNext={next}
+            correctAnswer={!correct ? String(answer) : undefined}
+          />
+        </>
       )}
     </DrillCard>
   );

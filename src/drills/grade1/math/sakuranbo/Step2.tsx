@@ -64,13 +64,12 @@ export function Step2({ onBuddy, onRecord }: Step2Props) {
   const leftActive = !givenLeft && phase === 'input';
   const rightActive = givenLeft && phase === 'input';
 
-  return (
-    <DrillCard title="かずを わけよう">
-      <div style={{ textAlign: 'center', fontSize: 15, fontWeight: 700, color: '#A8957D', marginBottom: 16 }}>
+  const problemArea = (
+    <div className="drill-problem" style={{ textAlign: 'center' }}>
+      <div style={{ fontSize: 15, fontWeight: 700, color: '#A8957D', marginBottom: 16 }}>
         {n} は {given} と ？ に わけられるかな？
       </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <CherryTree
           n={n}
           leftDisplay={leftDisplay}
@@ -82,13 +81,21 @@ export function Step2({ onBuddy, onRecord }: Step2Props) {
           shake={shake}
         />
       </div>
+    </div>
+  );
 
+  return (
+    <DrillCard title="かずを わけよう" maxWidth={800}>
       {phase === 'input' ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="drill-two-col">
+          {problemArea}
           <Numpad value={input} onChange={setInput} onSubmit={submit} maxLength={1} />
         </div>
       ) : (
-        <FeedbackOverlay correct={correct} onNext={next} correctAnswer={String(answer)} />
+        <>
+          {problemArea}
+          <FeedbackOverlay correct={correct} onNext={next} correctAnswer={String(answer)} />
+        </>
       )}
     </DrillCard>
   );

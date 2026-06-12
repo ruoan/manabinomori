@@ -117,7 +117,7 @@ export default function App() {
       <main style={{
         position: 'relative',
         zIndex: 10,
-        maxWidth: 640,
+        maxWidth: state.screen === 'drill' ? 880 : 640,
         margin: '0 auto',
         padding: '26px clamp(18px, 4vw, 40px) 40px',
       }}>

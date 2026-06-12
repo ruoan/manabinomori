@@ -122,25 +122,21 @@ export function Step3({ onBuddy, onRecord, showHint = false, partialFill = false
     ? 'さくらんぼ算（かんたん）'
     : 'さくらんぼ算（ぜんぶ うめよう）';
 
-  return (
-    <DrillCard title={cardTitle}>
+  const problemArea = (
+    <div className="drill-problem">
       {partialFill && (
         <div style={{ textAlign: 'center', fontSize: 14, fontWeight: 700, color: '#A8957D', marginBottom: 12 }}>
           ひだりは もう わかってるよ！ みぎと こたえを いれよう
         </div>
       )}
-
-      <div style={{ marginBottom: 20 }}>
-        <ProblemDisplay
-          a={problem.a} b={problem.b}
-          leftVal={leftVal} leftPreFilled={leftPreFilled}
-          leftActive={leftActive} leftInput={leftInput}
-          rightVal={rightVal} rightActive={rightActive} rightInput={rightInput}
-          answerVal={answerVal} answerActive={answerActive} answerInput={answerInput}
-          shake={shake}
-        />
-      </div>
-
+      <ProblemDisplay
+        a={problem.a} b={problem.b}
+        leftVal={leftVal} leftPreFilled={leftPreFilled}
+        leftActive={leftActive} leftInput={leftInput}
+        rightVal={rightVal} rightActive={rightActive} rightInput={rightInput}
+        answerVal={answerVal} answerActive={answerActive} answerInput={answerInput}
+        shake={shake}
+      />
       {showHint && phase === 'input' && (
         <div style={{ marginTop: 12, textAlign: 'center' }}>
           {hintVisible ? (
@@ -175,13 +171,21 @@ export function Step3({ onBuddy, onRecord, showHint = false, partialFill = false
           )}
         </div>
       )}
+    </div>
+  );
 
+  return (
+    <DrillCard title={cardTitle} maxWidth={800}>
       {phase === 'input' ? (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+        <div className="drill-two-col">
+          {problemArea}
           <Numpad value={input} onChange={setInput} onSubmit={submit} maxLength={numpadMax} />
         </div>
       ) : (
-        <FeedbackOverlay correct={true} onNext={next} />
+        <>
+          {problemArea}
+          <FeedbackOverlay correct={true} onNext={next} />
+        </>
       )}
     </DrillCard>
   );

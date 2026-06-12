@@ -21,7 +21,7 @@ export function Numpad({ value, onChange, onSubmit, disabled, maxLength = 2 }: N
   const canSubmit = !disabled && value.length > 0;
 
   return (
-    <div style={{
+    <div className="numpad-shell" style={{
       background: '#FFF7EA',
       borderRadius: 24,
       padding: 14,
@@ -53,16 +53,52 @@ export function Numpad({ value, onChange, onSubmit, disabled, maxLength = 2 }: N
         ))}
         <NumBtn label="⌫" onClick={handleDelete} disabled={!!disabled} bg="#FFE6D6" shadow="#F4C9B0" />
         <NumBtn label="0" onClick={() => handleDigit('0')} disabled={!!disabled} />
-        <NumBtn
-          label="OK"
-          onClick={onSubmit}
-          disabled={!canSubmit}
-          bg="#56C36F"
-          shadow="#3FA35A"
-          color="#fff"
-        />
+        <div />
       </div>
+      <OkBtn onSubmit={onSubmit} canSubmit={canSubmit} />
     </div>
+  );
+}
+
+function OkBtn({ onSubmit, canSubmit }: { onSubmit: () => void; canSubmit: boolean }) {
+  const shadow = '#3FA35A';
+  return (
+    <button
+      onClick={onSubmit}
+      disabled={!canSubmit}
+      style={{
+        width: '100%',
+        height: 72,
+        marginTop: 8,
+        fontSize: 26,
+        fontWeight: 800,
+        background: '#56C36F',
+        border: 'none',
+        borderRadius: 14,
+        boxShadow: canSubmit ? `0 5px 0 ${shadow}` : 'none',
+        cursor: canSubmit ? 'pointer' : 'not-allowed',
+        opacity: canSubmit ? 1 : 0.35,
+        color: '#fff',
+        fontFamily: 'inherit',
+        letterSpacing: '.06em',
+        transition: 'transform .08s, box-shadow .08s',
+      }}
+      onMouseDown={e => {
+        if (!canSubmit) return;
+        e.currentTarget.style.transform = 'translateY(4px)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+      onMouseUp={e => {
+        e.currentTarget.style.transform = '';
+        e.currentTarget.style.boxShadow = canSubmit ? `0 5px 0 ${shadow}` : 'none';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = '';
+        e.currentTarget.style.boxShadow = canSubmit ? `0 5px 0 ${shadow}` : 'none';
+      }}
+    >
+      OK
+    </button>
   );
 }
 
