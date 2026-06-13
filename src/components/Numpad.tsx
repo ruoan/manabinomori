@@ -30,7 +30,7 @@ export function Numpad({ value, onChange, onSubmit, disabled, maxLength = 2 }: N
       width: 256,
     }}>
       {/* Display */}
-      <div style={{
+      <div className="numpad-display" style={{
         background: '#fff',
         borderRadius: 12,
         padding: '6px 14px',
@@ -47,7 +47,7 @@ export function Numpad({ value, onChange, onSubmit, disabled, maxLength = 2 }: N
         {value || '？'}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+      <div className="numpad-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
         {([7, 8, 9, 4, 5, 6, 1, 2, 3] as number[]).map(n => (
           <NumBtn key={n} label={String(n)} onClick={() => handleDigit(String(n))} disabled={!!disabled} />
         ))}
@@ -66,6 +66,7 @@ function OkBtn({ onSubmit, canSubmit }: { onSubmit: () => void; canSubmit: boole
     <button
       onClick={onSubmit}
       disabled={!canSubmit}
+      className="numpad-okbtn"
       style={{
         width: '100%',
         height: 72,
@@ -116,6 +117,7 @@ function NumBtn({ label, onClick, disabled, bg = '#fff', shadow = '#E8D5BE', col
     <button
       onClick={onClick}
       disabled={disabled}
+      className="numpad-numbtn"
       style={{
         height: 60,
         fontSize: label === 'OK' ? 20 : 26,
