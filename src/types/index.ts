@@ -27,6 +27,7 @@ export interface Subject {
   color: string;
   soft: string;
   shadow: string;
+  gradeN?: number;
 }
 
 export interface Unit {

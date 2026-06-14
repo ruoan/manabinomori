@@ -19,5 +19,6 @@ export const STEPS_REGISTRY: Record<string, Record<number, ComponentType<StepPro
 };
 
 export const UNITS_BY_SUBJECT: Record<string, Unit[]> = {
-  math: [sakuranboMeta, yasaicountMeta],
+  math:      [sakuranboMeta],
+  kazuasobi: [yasaicountMeta],
 };

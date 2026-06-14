@@ -16,13 +16,12 @@ export const meta: Unit = {
   color: '#34C77B',
   soft: '#DFF6EC',
   stepCount: 3,
-  gradeN: 0,
   iconEmoji: '🥕',
 };
 
 export const stepLabels: { name: string; desc: string }[] = [
   { name: '1〜5の かずかぞえ',  desc: 'やさいを 1から 5まで かぞえよう' },
-  { name: '1〜10の かずかぞえ', desc: 'やさいを 1から 10まで かぞえよう' },
+  { name: '5〜10の かずかぞえ', desc: 'やさいを 5から 10まで かぞえよう' },
   { name: 'まぜこぜ やさい',    desc: 'おなじ やさいは いくつあるかな？' },
 ];
 

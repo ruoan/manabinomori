@@ -30,7 +30,7 @@ export function SubjectScreen({ grade, onSelect }: SubjectScreenProps) {
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: 18,
       }}>
-        {SUBJECTS.map((subject) => (
+        {SUBJECTS.filter(s => s.gradeN === undefined || s.gradeN === grade).map((subject) => (
           <SubjectCard key={subject.key} subject={subject} onSelect={onSelect} />
         ))}
       </div>

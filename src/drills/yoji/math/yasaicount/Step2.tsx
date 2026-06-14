@@ -7,7 +7,7 @@ import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
 
 function genProblem() {
   const veg = VEGETABLES[Math.floor(Math.random() * VEGETABLES.length)];
-  const count = Math.floor(Math.random() * 10) + 1;
+  const count = Math.floor(Math.random() * 6) + 5; // 5-10
   return { veg, count };
 }
 
@@ -48,7 +48,7 @@ export function Step2({ onBuddy, onRecord }: StepProps) {
   const { veg, count } = problem;
 
   return (
-    <DrillCard title="もっと かぞえよう" maxWidth={760}>
+    <DrillCard title="もっと かぞえよう（5〜10）" maxWidth={760}>
       {phase === 'input' ? (
         <div className="drill-two-col">
           <div className="drill-problem" style={{ textAlign: 'center' }}>
