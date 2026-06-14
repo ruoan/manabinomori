@@ -1,4 +1,5 @@
 import { SUBJECTS } from '../../data/subjects';
+import { GRADES } from '../../data/grades';
 import type { Subject } from '../../types';
 
 interface SubjectScreenProps {
@@ -7,6 +8,8 @@ interface SubjectScreenProps {
 }
 
 export function SubjectScreen({ grade, onSelect }: SubjectScreenProps) {
+  const gradeInfo = GRADES.find(g => g.n === grade);
+  const gradeLabel = gradeInfo?.label ?? `${grade}年生`;
   return (
     <section>
       <div style={{ marginBottom: 26 }}>
@@ -16,7 +19,7 @@ export function SubjectScreen({ grade, onSelect }: SubjectScreenProps) {
           margin: '0 0 4px',
           color: '#4A3B2A',
         }}>
-          {grade}年生の おべんきょう
+          {gradeLabel}の おべんきょう
         </h1>
         <p style={{ margin: 0, fontWeight: 700, color: '#A8957D', fontSize: 17 }}>
           きょうかを えらぼう

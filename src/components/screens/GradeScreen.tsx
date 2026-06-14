@@ -76,11 +76,11 @@ function GradeCard({ grade, onSelect }: { grade: Grade; onSelect: (n: number) =>
       }}>
         <span style={{
           fontFamily: "'Mochiy Pop One', sans-serif",
-          fontSize: 34,
+          fontSize: grade.label ? 22 : 34,
           color: '#fff',
           lineHeight: 1,
         }}>
-          {grade.n}
+          {grade.label ?? grade.n}
         </span>
       </div>
       <div style={{ flex: 1 }}>
@@ -90,7 +90,7 @@ function GradeCard({ grade, onSelect }: { grade: Grade; onSelect: (n: number) =>
           fontSize: 24,
           color: '#4A3B2A',
         }}>
-          {grade.n}年生
+          {grade.label ?? `${grade.n}年生`}
         </div>
         <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
           {SUBJECT_DOT_COLORS.map((color, i) => (

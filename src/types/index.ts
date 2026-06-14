@@ -16,6 +16,7 @@ export interface Grade {
   n: number;
   color: string;
   soft: string;
+  label?: string;
 }
 
 export interface Subject {
@@ -35,4 +36,6 @@ export interface Unit {
   color: string;
   soft: string;
   stepCount: number;
+  gradeN?: number;
+  iconEmoji?: string;
 }

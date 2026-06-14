@@ -3,11 +3,13 @@ import type { Unit } from '../../types';
 
 interface UnitScreenProps {
   subject: string;
+  grade: number;
   onSelect: (unitKey: string) => void;
 }
 
-export function UnitScreen({ subject, onSelect }: UnitScreenProps) {
-  const units = UNITS_BY_SUBJECT[subject] ?? [];
+export function UnitScreen({ subject, grade, onSelect }: UnitScreenProps) {
+  const allUnits = UNITS_BY_SUBJECT[subject] ?? [];
+  const units = allUnits.filter(u => u.gradeN === undefined || u.gradeN === grade);
 
   return (
     <section>
@@ -65,7 +67,10 @@ function UnitCard({ unit, onSelect }: { unit: Unit; onSelect: (key: string) => v
         placeItems: 'center',
         boxShadow: `0 6px 14px ${unit.soft}`,
       }}>
-        <CherryIcon />
+        {unit.iconEmoji
+          ? <span style={{ fontSize: 36, lineHeight: 1 }}>{unit.iconEmoji}</span>
+          : <CherryIcon />
+        }
       </div>
       <div style={{ flex: 1 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: '#B7A488', letterSpacing: '.05em', marginBottom: 2 }}>

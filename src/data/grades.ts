@@ -1,6 +1,7 @@
 import type { Grade } from '../types';
 
 export const GRADES: Grade[] = [
+  { n: 0, color: '#34C77B', soft: '#DFF6EC', label: '幼児' },
   { n: 1, color: '#FF8A5C', soft: '#FFE6D6' },
 ];
 

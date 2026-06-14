@@ -11,6 +11,7 @@ import { DrillScreen } from './components/screens/DrillScreen';
 import { useProgress } from './hooks/useProgress';
 import { UNITS_BY_SUBJECT } from './data/units';
 import { SUBJECTS } from './data/subjects';
+import { GRADES } from './data/grades';
 
 const INITIAL_STATE: AppState = {
   screen: 'grade',
@@ -86,7 +87,11 @@ export default function App() {
   // Build breadcrumb items
   const breadcrumbItems = (() => {
     const items = [];
-    if (state.grade !== null) items.push({ label: `${state.grade}年生`, onClick: goGrade });
+    if (state.grade !== null) {
+      const gradeInfo = GRADES.find(g => g.n === state.grade);
+      const gradeLabel = gradeInfo?.label ?? `${state.grade}年生`;
+      items.push({ label: gradeLabel, onClick: goGrade });
+    }
     if (state.subject !== null) {
       const sub = SUBJECTS.find(s => s.key === state.subject);
       items.push({ label: sub?.name ?? state.subject, onClick: state.screen !== 'subject' ? () => setState(prev => ({ ...prev, screen: 'unit', unit: null, step: null })) : undefined });
@@ -131,8 +136,8 @@ export default function App() {
         {state.screen === 'subject' && state.grade !== null && (
           <SubjectScreen grade={state.grade} onSelect={pickSubject} />
         )}
-        {state.screen === 'unit' && state.subject !== null && (
-          <UnitScreen subject={state.subject} onSelect={pickUnit} />
+        {state.screen === 'unit' && state.subject !== null && state.grade !== null && (
+          <UnitScreen subject={state.subject} grade={state.grade} onSelect={pickUnit} />
         )}
         {state.screen === 'step' && state.unit !== null && (
           <StepScreen
