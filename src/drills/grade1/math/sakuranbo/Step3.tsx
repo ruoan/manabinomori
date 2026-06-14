@@ -2,7 +2,8 @@ import { useState, useCallback } from 'react';
 import type { Mood } from '../../../../types';
 import { Numpad } from '../../../../components/Numpad';
 import { correctMsg, wrongMsg } from '../../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
+import { DrillCard, FeedbackOverlay, SpeakButton } from '../../../shared/DrillShared';
+import { useSpeech } from '../../../../hooks/useSpeech';
 
 interface Problem {
   a: number;
@@ -32,6 +33,7 @@ interface Step3Props {
 
 export function Step3({ onBuddy, onRecord, showHint = false, partialFill = false }: Step3Props) {
   const totalBlanks = partialFill ? 2 : 3;
+  const { speak } = useSpeech();
 
   const [problem, setProblem] = useState<Problem>(genProblem);
   const [input, setInput] = useState('');
@@ -174,11 +176,18 @@ export function Step3({ onBuddy, onRecord, showHint = false, partialFill = false
     </div>
   );
 
+  const questionText = `${problem.a} たす ${problem.b} は いくつ？`;
+
   return (
     <DrillCard title={cardTitle} maxWidth={800}>
       {phase === 'input' ? (
         <div className="drill-two-col">
-          {problemArea}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+              <SpeakButton onClick={() => speak(questionText)} />
+            </div>
+            {problemArea}
+          </div>
           <Numpad value={input} onChange={setInput} onSubmit={submit} maxLength={numpadMax} />
         </div>
       ) : (
@@ -187,6 +196,7 @@ export function Step3({ onBuddy, onRecord, showHint = false, partialFill = false
           <FeedbackOverlay correct={true} onNext={next} />
         </>
       )}
+
     </DrillCard>
   );
 }

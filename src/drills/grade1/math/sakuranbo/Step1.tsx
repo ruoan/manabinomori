@@ -2,7 +2,8 @@ import { useState, useCallback } from 'react';
 import type { Mood } from '../../../../types';
 import { Numpad } from '../../../../components/Numpad';
 import { correctMsg, wrongMsg } from '../../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
+import { DrillCard, FeedbackOverlay, SpeakButton } from '../../../shared/DrillShared';
+import { useSpeech } from '../../../../hooks/useSpeech';
 
 interface Problem {
   shown: number;
@@ -26,6 +27,7 @@ export function Step1({ onBuddy, onRecord }: Step1Props) {
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');
   const [correct, setCorrect] = useState(false);
   const [shake, setShake] = useState(false);
+  const { speak } = useSpeech();
 
   const submit = useCallback(() => {
     const num = parseInt(input, 10);
@@ -55,12 +57,18 @@ export function Step1({ onBuddy, onRecord }: Step1Props) {
   }, [onBuddy]);
 
   const { shown, answer, shownLeft } = problem;
+  const questionText = shownLeft
+    ? `${shown} と たして 10 に なる かずは なに？`
+    : `${shown} に たすと 10 に なる かずは なに？`;
 
   return (
     <DrillCard title="10の ごうせい" maxWidth={800}>
       {phase === 'input' ? (
         <div className="drill-two-col">
           <div className="drill-problem" style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+              <SpeakButton onClick={() => speak(questionText)} />
+            </div>
             <ComposeProblem
               shown={shown}
               shownLeft={shownLeft}

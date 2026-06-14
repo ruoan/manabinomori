@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { StepProps } from './index';
 import { Numpad } from '../../../../components/Numpad';
 import { correctMsg, wrongMsg } from '../../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
+import { DrillCard, FeedbackOverlay, SpeakButton } from '../../../shared/DrillShared';
+import { useSpeech } from '../../../../hooks/useSpeech';
 
 export const VEGETABLES = [
   { emoji: '🥕', name: 'にんじん' },
@@ -27,6 +28,15 @@ export function Step1({ onBuddy, onRecord }: StepProps) {
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');
   const [correct, setCorrect] = useState(false);
   const [shake, setShake] = useState(false);
+  const { speak } = useSpeech();
+
+  const questionText = `${problem.veg.name}は いくつ ありますか？`;
+
+  useEffect(() => {
+    const id = setTimeout(() => speak(questionText), 350);
+    return () => clearTimeout(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [problem]);
 
   const submit = useCallback(() => {
     const num = parseInt(input, 10);
@@ -62,7 +72,14 @@ export function Step1({ onBuddy, onRecord }: StepProps) {
       {phase === 'input' ? (
         <div className="drill-two-col">
           <div className="drill-problem" style={{ textAlign: 'center' }}>
-            <VegetableQuestion veg={veg} count={count} input={input} shake={shake} />
+            <VegetableQuestion
+              veg={veg}
+              count={count}
+              input={input}
+              shake={shake}
+              questionText={questionText}
+              onSpeak={() => speak(questionText)}
+            />
           </div>
           <Numpad value={input} onChange={setInput} onSubmit={submit} maxLength={1} />
         </div>
@@ -81,16 +98,21 @@ export function Step1({ onBuddy, onRecord }: StepProps) {
   );
 }
 
-function VegetableQuestion({ veg, count, input, shake }: {
+function VegetableQuestion({ veg, count, input, shake, questionText, onSpeak }: {
   veg: { emoji: string; name: string };
   count: number;
   input: string;
   shake: boolean;
+  questionText: string;
+  onSpeak: () => void;
 }) {
   return (
     <div>
-      <div style={{ fontSize: 16, fontWeight: 700, color: '#A8957D', marginBottom: 14 }}>
-        {veg.emoji} {veg.name}は いくつ ありますか？
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 14 }}>
+        <span style={{ fontSize: 16, fontWeight: 700, color: '#A8957D' }}>
+          {veg.emoji} {questionText}
+        </span>
+        <SpeakButton onClick={onSpeak} />
       </div>
       <VegetableDisplay veg={veg} count={count} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginTop: 18 }}>

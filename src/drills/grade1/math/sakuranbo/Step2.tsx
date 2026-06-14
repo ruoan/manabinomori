@@ -2,7 +2,8 @@ import { useState, useCallback } from 'react';
 import type { Mood } from '../../../../types';
 import { Numpad } from '../../../../components/Numpad';
 import { correctMsg, wrongMsg } from '../../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
+import { DrillCard, FeedbackOverlay, SpeakButton } from '../../../shared/DrillShared';
+import { useSpeech } from '../../../../hooks/useSpeech';
 
 interface Problem {
   n: number;
@@ -28,6 +29,7 @@ export function Step2({ onBuddy, onRecord }: Step2Props) {
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');
   const [correct, setCorrect] = useState(false);
   const [shake, setShake] = useState(false);
+  const { speak } = useSpeech();
 
   const submit = useCallback(() => {
     const num = parseInt(input, 10);
@@ -64,10 +66,13 @@ export function Step2({ onBuddy, onRecord }: Step2Props) {
   const leftActive = !givenLeft && phase === 'input';
   const rightActive = givenLeft && phase === 'input';
 
+  const questionText = `${n} は ${given} と いくつに わけられるかな？`;
+
   const problemArea = (
     <div className="drill-problem" style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: 15, fontWeight: 700, color: '#A8957D', marginBottom: 16 }}>
-        {n} は {given} と ？ に わけられるかな？
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 16 }}>
+        <span style={{ fontSize: 15, fontWeight: 700, color: '#A8957D' }}>{questionText}</span>
+        {phase === 'input' && <SpeakButton onClick={() => speak(questionText)} style={{ width: 34, height: 34, fontSize: 16 }} />}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <CherryTree

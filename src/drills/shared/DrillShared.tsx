@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 
 interface DrillCardProps {
   title: string;
@@ -98,6 +98,37 @@ export function FeedbackOverlay({ correct, onNext, correctAnswer }: FeedbackOver
         つぎへ ›
       </button>
     </div>
+  );
+}
+
+export function SpeakButton({ onClick, style }: { onClick: () => void; style?: CSSProperties }) {
+  return (
+    <button
+      onClick={onClick}
+      title="よみあげ"
+      style={{
+        background: '#E6EFFF',
+        border: '2px solid #9FC2F5',
+        borderRadius: '50%',
+        width: 40,
+        height: 40,
+        cursor: 'pointer',
+        fontSize: 20,
+        display: 'inline-grid',
+        placeItems: 'center',
+        padding: 0,
+        flexShrink: 0,
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        touchAction: 'manipulation',
+        transition: 'background .15s',
+        ...style,
+      }}
+      onMouseEnter={e => (e.currentTarget.style.background = '#D0E4FF')}
+      onMouseLeave={e => (e.currentTarget.style.background = '#E6EFFF')}
+    >
+      🔊
+    </button>
   );
 }
 

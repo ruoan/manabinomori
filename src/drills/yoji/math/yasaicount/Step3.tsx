@@ -1,9 +1,10 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import type { StepProps } from './index';
 import { VEGETABLES } from './Step1';
 import { Numpad } from '../../../../components/Numpad';
 import { correctMsg, wrongMsg } from '../../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
+import { DrillCard, FeedbackOverlay, SpeakButton } from '../../../shared/DrillShared';
+import { useSpeech } from '../../../../hooks/useSpeech';
 
 interface MixedProblem {
   items: { emoji: string; name: string }[];
@@ -47,6 +48,15 @@ export function Step3({ onBuddy, onRecord }: StepProps) {
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');
   const [correct, setCorrect] = useState(false);
   const [shake, setShake] = useState(false);
+  const { speak } = useSpeech();
+
+  const questionText = `${problem.target.name}は いくつ ありますか？`;
+
+  useEffect(() => {
+    const id = setTimeout(() => speak(questionText), 350);
+    return () => clearTimeout(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [problem]);
 
   const submit = useCallback(() => {
     const num = parseInt(input, 10);
@@ -94,13 +104,14 @@ export function Step3({ onBuddy, onRecord }: StepProps) {
               background: '#DFF6EC',
               border: '2px solid #34C77B',
               borderRadius: 999,
-              padding: '8px 20px',
+              padding: '8px 16px 8px 20px',
               marginBottom: 14,
             }}>
               <span style={{ fontSize: 28 }}>{target.emoji}</span>
               <span style={{ fontSize: 16, fontWeight: 800, color: '#228B55' }}>
-                {target.name}は いくつ？
+                {questionText}
               </span>
+              <SpeakButton onClick={() => speak(questionText)} style={{ width: 34, height: 34, fontSize: 16 }} />
             </div>
             <MixedVegetableGrid items={items} highlightEmoji={undefined} />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginTop: 16 }}>

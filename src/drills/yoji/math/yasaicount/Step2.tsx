@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { StepProps } from './index';
 import { VEGETABLES, VegetableDisplay } from './Step1';
 import { Numpad } from '../../../../components/Numpad';
 import { correctMsg, wrongMsg } from '../../../../utils/messages';
-import { DrillCard, FeedbackOverlay } from '../../../shared/DrillShared';
+import { DrillCard, FeedbackOverlay, SpeakButton } from '../../../shared/DrillShared';
+import { useSpeech } from '../../../../hooks/useSpeech';
 
 function genProblem() {
   const veg = VEGETABLES[Math.floor(Math.random() * VEGETABLES.length)];
@@ -17,6 +18,15 @@ export function Step2({ onBuddy, onRecord }: StepProps) {
   const [phase, setPhase] = useState<'input' | 'feedback'>('input');
   const [correct, setCorrect] = useState(false);
   const [shake, setShake] = useState(false);
+  const { speak } = useSpeech();
+
+  const questionText = `${problem.veg.name}は いくつ ありますか？`;
+
+  useEffect(() => {
+    const id = setTimeout(() => speak(questionText), 350);
+    return () => clearTimeout(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [problem]);
 
   const submit = useCallback(() => {
     const num = parseInt(input, 10);
@@ -52,8 +62,11 @@ export function Step2({ onBuddy, onRecord }: StepProps) {
       {phase === 'input' ? (
         <div className="drill-two-col">
           <div className="drill-problem" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: '#A8957D', marginBottom: 14 }}>
-              {veg.emoji} {veg.name}は いくつ ありますか？
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 14 }}>
+              <span style={{ fontSize: 16, fontWeight: 700, color: '#A8957D' }}>
+                {veg.emoji} {questionText}
+              </span>
+              <SpeakButton onClick={() => speak(questionText)} />
             </div>
             <VegetableDisplay veg={veg} count={count} />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginTop: 18 }}>
